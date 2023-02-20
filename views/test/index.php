@@ -7,17 +7,36 @@
 <div class="col-md-12">
     <h1>Страница с формой</h1>
 
+    <!-- < ?= \app\components\HelloWidget::widget(['name' => 'John']); // Выводим наш виджет ?> -->
+
+    <?php \app\components\HelloWidget::begin(['name' => 'John']) ?>
+        <h1> Контент виджета: </h1>
+    <?php \app\components\HelloWidget::end() ?>
+
+    
     <?php Pjax::begin() ?>
+    <?= \app\widgets\Alert::widget() // Используем виджет, чтобы не писать код, который закоментирован ниже ?>
+
+    <!--
     <?php if(Yii::$app->session->hasFlash('success')): ?>
         <div class="alert alert-success alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <?= Yii::$app->session->getFlash('success') ?>
         </div>
     <?php endif; ?>
+
+    <?php if(Yii::$app->session->hasFlash('error')): ?>
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <?= Yii::$app->session->getFlash('error') ?>
+        </div>
+    <?php endif; ?>
+    -->
+
     <?php //debug($model) // Распечатываем объект формы model ?>
     <?php $form = ActiveForm::begin([
         'id' => 'my-form',
-        'enableClientValidation' => true,
+        'enableClientValidation' => false, // Запрещает клиентскую валидацию данных
         'options' => [
             'class' => 'form-horizontal',
             'data-pjax' => false,
@@ -38,7 +57,7 @@
             'labelOptions' => ['class' => 'col-md-2 control-label'],
         ]*/)->input('email', ['placeholder' => 'email']) ?>
 
-        <?= $form->field($model, 'topic', ['enableAjaxValidation' => true])->textInput(['placeholder' => 'Тема']) 
+        <?= $form->field($model, 'topic', ['enableAjaxValidation' => false])->textInput(['placeholder' => 'Тема']) 
                                             // Включаем ajax-валидацию для элемента Тема
         ?>
                                             
@@ -59,7 +78,10 @@
 </div>
 
 <?php
+
+
 // Валидация асинхронной отправки (AJAX-валидация)
+/*
 $js = <<<JS
 var form = $('#my-form');
 form.on('beforeSubmit', function(){
@@ -81,6 +103,8 @@ form.on('beforeSubmit', function(){
 JS;
 
 $this->registerJs($js);
+
+*/
 
 ?>
 

@@ -24,7 +24,19 @@ class TestController extends AppController {
         
         $model = new EntryForm(); // Создаём объект формы, который передадим последним параметром в функции рендер
 
+        // Для отправки данных с помощью виджета
+        if($model->load(\Yii::$app->request->post())) {
+        if ($model->validate()) {
+            \Yii::$app->session->setFlash('success', 'OK');
+            return $this->refresh();
+            } else {
+                \Yii::$app->session->setFlash('error', 'Error');
+            }
+        }
+        
+
         // Асинхронная отправка данных AJAX
+        /*
         $model->load(\Yii::$app->request->post());
         if (\Yii::$app->request->isAjax) {
             \Yii::$app->response->format = Response::FORMAT_JSON;
@@ -35,6 +47,7 @@ class TestController extends AppController {
             }
             //return ActiveForm::validate($model);
         }
+        */
 
         return $this->render('index', compact('model'));
     }
