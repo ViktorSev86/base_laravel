@@ -27,6 +27,7 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'bXXTYJWJzQy3SnOmhDS1cmZo-qM_EmNw',
+            'baseUrl' => '', // Чтобы убрать папку web из Url
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -55,14 +56,18 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
-        'urlManager' => [
+        
+        'urlManager' => [ // Чтобы настроить правильные URL
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => false,
             'rules' => [
+                //'category/view/<id:\d+>' => 'category/view',
+                //'category/<id:\d+>' => 'category/view', // Для вывода категории по id, регулярное выражение между <> говорит, что id должна быть цифра
+                'category/<alias>' => 'category/view',
             ],
         ],
-        */
+        
     ],
     'params' => $params,
 ];
